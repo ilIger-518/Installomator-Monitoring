@@ -5,10 +5,10 @@
 # Author: 
 # Created: 2026-01-23
 # Updated: 2026-01-23
-# Description: - Reads labels from Labels.txt file
-#              - Executes Installomator.sh for each label
-#              - Processes each line of the labels file sequentially
-#              - Logs execution status for monitoring
+# Description: - Reads Installomator labels from Labels.txt
+#              - Runs Installomator.sh for each actionable label in sequence
+#              - Writes detailed monitoring and failure logs to /Library/Logs/Management
+#              - Optionally creates Jira issues for failed labels
 # 
 # Copyright (c) 2023 Apfelwerk Apfelwerk GmbH & Co. KG
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
