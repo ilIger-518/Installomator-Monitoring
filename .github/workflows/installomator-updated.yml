@@ -1,0 +1,51 @@
+name: Update Installomator and Monitor
+
+on:
+  repository_dispatch:
+    types:
+      - installomator-updated
+
+permissions:
+  contents: write
+
+jobs:
+  update-installomator:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Ensure Installomator directory exists
+        run: mkdir -p Installomator
+
+      - name: Download latest Installomator.sh
+        run: |
+          curl -fsSL \
+            -o Installomator/Installomator.sh.latest \
+            https://raw.githubusercontent.com/Installomator/Installomator/main/Installomator.sh
+
+      - name: Replace local Installomator.sh if changed
+        id: replace
+        run: |
+          if [ ! -f Installomator/Installomator.sh ] || ! cmp -s Installomator/Installomator.sh.latest Installomator/Installomator.sh; then
+            mv Installomator/Installomator.sh.latest Installomator/Installomator.sh
+            chmod +x Installomator/Installomator.sh
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            rm -f Installomator/Installomator.sh.latest
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push updated Installomator.sh
+        if: steps.replace.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Installomator/Installomator.sh
+          git commit -m "Update Installomator.sh"
+          git push
+
+      - name: Run monitor script
+        run: |
+          chmod +x InstallomatorMonitoring.sh
+          ./InstallomatorMonitoring.sh
