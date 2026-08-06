@@ -17,14 +17,10 @@ jobs:
           curl -fsSL "https://raw.githubusercontent.com/apfelwerk/Installomator/main/Installomator.sh" \
             -o Installomator.sh
 
-      - name: Check DEBUG variable
+      - name: Set DEBUG to 2
         run: |
-          if grep -qE '^\s*DEBUG\s*=\s*2\b' Installomator.sh; then
-            echo "WARNING: DEBUG is set to 2 in Installomator.sh"
-            exit 1
-          else
-            echo "DEBUG is not set to 2. OK."
-          fi
+          sed -i 's/^\(DEBUG\s*=\s*\)[0-9]*/\12/' Installomator.sh
+          echo "DEBUG set to 2 in Installomator.sh"
 
       - name: Commit and push if changed
         run: |
