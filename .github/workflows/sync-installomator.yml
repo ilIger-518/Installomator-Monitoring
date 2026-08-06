@@ -1,0 +1,30 @@
+name: Sync Installomator.sh
+
+on:
+  schedule:
+    - cron: '0 15 * * 5'  # Every Friday at 15:00 UTC
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download Installomator.sh
+        run: |
+          curl -fsSL "https://raw.githubusercontent.com/apfelwerk/Installomator/main/Installomator.sh" \
+            -o Installomator.sh
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Installomator.sh
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: sync Installomator.sh from upstream"
+            git push
+          fi
