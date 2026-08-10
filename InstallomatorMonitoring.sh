@@ -47,7 +47,7 @@ logd "$(printf "%0.s# " {1..10}) Starting ${scriptName} script $(printf "%0.s# "
 
 # Variables for the application part of this script
 scriptDir=$(dirname "${0}")
-installomatorScript="${scriptDir}/Installomator/Installomator.sh"
+installomatorScript="${scriptDir}/Installomator.sh"
 labelsFile="${scriptDir}/Installomator/Labels.txt"
 monitoringStartTime=$(date "+%Y-%m-%d_%H-%M-%S")
 failureLogFile="${logDir}/InstallomatorMonitoringLog_${monitoringStartTime}.log"
