@@ -65,24 +65,26 @@ That failure log includes:
 
 ## Jira integration
 
-The script includes optional Jira issue creation for failed labels. Configure these variables in `InstallomatorMonitoring.sh`:
+The script includes optional Jira issue creation for failed labels. Jira settings are loaded from a `.env` file in the same directory as `InstallomatorMonitoring.sh`.
 
-- `jiraEnabled`
-- `jiraBaseUrl`
-- `jiraProjectKey`
-- `jiraIssueType`
-- `jiraUserEmail`
-- `jiraApiToken`
-- `jiraStatusTransitionId`
-- `jiraSummaryPrefix`
+Use these variables in `.env`:
 
-If `jiraEnabled` is set to `true` and the required settings are populated, the script creates a Jira issue for each failed label. If `jiraStatusTransitionId` is also set, the new issue is moved with that transition after creation.
+- `JIRA_ENABLED`
+- `JIRA_BASE_URL`
+- `JIRA_PROJECT_KEY`
+- `JIRA_ISSUE_TYPE`
+- `JIRA_USER_EMAIL`
+- `JIRA_API_TOKEN`
+- `JIRA_STATUS_TRANSITION_ID`
+- `JIRA_SUMMARY_PREFIX`
+
+If `JIRA_ENABLED` is set to `true` and the required settings are populated, the script creates a Jira issue for each failed label. If `JIRA_STATUS_TRANSITION_ID` is also set, the new issue is moved with that transition after creation.
 
 ## Usage
 
 1. Place `InstallomatorMonitoring.sh` next to your `Installomator` folder.
 2. Add the labels you want to process to `Installomator/Labels.txt`.
-3. Adjust the Jira settings in the script if you want ticket creation.
+3. Create a `.env` file next to `InstallomatorMonitoring.sh` and set Jira variables (see `.env.example`).
 4. Run the script:
 
 ```zsh

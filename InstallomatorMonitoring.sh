@@ -49,22 +49,44 @@ logd "$(printf "%0.s# " {1..10}) Starting ${scriptName} script $(printf "%0.s# "
 scriptDir=$(dirname "${0}")
 installomatorScript="${scriptDir}/Installomator.sh"
 labelsFile="${scriptDir}/Labels.txt"
+envFile="${scriptDir}/.env"
 monitoringStartTime=$(date "+%Y-%m-%d_%H-%M-%S")
 failureLogFile="${logDir}/InstallomatorMonitoringLog_${monitoringStartTime}.log"
 failureLogCreated=false
 failureCount=0
 processedCount=0
 
+loadEnvFile() {
+    local filePath="$1"
+
+    if [[ ! -f "${filePath}" ]]; then
+        return 0
+    fi
+
+    # Export variables from .env so they can be consumed by script configuration.
+    set -a
+    source "${filePath}"
+    local sourceExitCode=$?
+    set +a
+
+    if [[ ${sourceExitCode} -ne 0 ]]; then
+        logd "ERROR: Failed to load environment file at ${filePath}"
+        exit 1
+    fi
+}
+
+loadEnvFile "${envFile}"
+
 # Jira configuration
 # If new issues already land in "Zu erledigen", leave jiraStatusTransitionId empty.
-jiraEnabled="false"
-jiraBaseUrl="https://yourcompany.atlassian.net"
-jiraProjectKey="IMON"
-jiraIssueType="Task"
-jiraUserEmail="service-account@yourcompany.com"
-jiraApiToken="replace-with-your-api-token"
-jiraStatusTransitionId=""
-jiraSummaryPrefix="Installomator label failed"
+jiraEnabled="${JIRA_ENABLED:-false}"
+jiraBaseUrl="${JIRA_BASE_URL:-https://yourcompany.atlassian.net}"
+jiraProjectKey="${JIRA_PROJECT_KEY:-IMON}"
+jiraIssueType="${JIRA_ISSUE_TYPE:-Task}"
+jiraUserEmail="${JIRA_USER_EMAIL:-}"
+jiraApiToken="${JIRA_API_TOKEN:-}"
+jiraStatusTransitionId="${JIRA_STATUS_TRANSITION_ID:-}"
+jiraSummaryPrefix="${JIRA_SUMMARY_PREFIX:-Installomator label failed}"
 
 jiraConfigured=false
 
