@@ -220,6 +220,16 @@ if [[ ! -f "${installomatorScript}" ]]; then
     exit 1
 fi
 
+# Ensure Installomator script is executable
+if [[ ! -x "${installomatorScript}" ]]; then
+    logd "WARNING: Installomator script is not executable. Attempting to fix permissions..."
+    chmod +x "${installomatorScript}" || {
+        logd "ERROR: Could not make ${installomatorScript} executable. Run: chmod +x ${installomatorScript}"
+        exit 1
+    }
+    logd "Fixed execute permission on ${installomatorScript}"
+fi
+
 # Check if Labels file exists
 if [[ ! -f "${labelsFile}" ]]; then
     logd "ERROR: Labels file not found at ${labelsFile}"
