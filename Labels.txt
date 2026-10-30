@@ -851,6 +851,7 @@ scansnaphomeix500
 scapple
 scenebuilder
 scmenu
+scopemap
 screamingfrogseospider
 screencloudplayer
 screenflick

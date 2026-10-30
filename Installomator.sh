@@ -348,8 +348,8 @@ if [[ $(/usr/bin/arch) == "arm64" ]]; then
         rosetta2=no
     fi
 fi
-VERSION="10.9.32"
-VERSIONDATE="2026-10-06"
+VERSION="10.9.33"
+VERSIONDATE="2026-10-30"
 
 # MARK: Functions
 
@@ -9468,6 +9468,14 @@ scmenu)
     downloadURL="$(downloadURLFromGit boberito sc_menu)"
     appNewVersion="$(versionFromGit boberito sc_menu)"
     expectedTeamID="2WUMX954UB"
+    ;;
+scopemap)
+    name="ScopeMap"
+    type="pkg"
+    packageID="com.jamf.concepts.scopemap"
+    downloadURL="$(downloadURLFromGit Jamf-Concepts scope-map)"
+    appNewVersion="$(versionFromGit Jamf-Concepts scope-map)"
+    expectedTeamID="483DWKW443"
     ;;
 screamingfrogseospider)
     name="Screaming Frog SEO Spider"
